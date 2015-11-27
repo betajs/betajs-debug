@@ -1,0 +1,31 @@
+{
+	"name": "betajs-debug",
+	"version": "0.0.1",
+	"description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
+	"homepage": "http://betajs.com",
+	"contributors": ["Oliver Friedmann"],
+	"license": "MIT",
+	"devDependencies": {
+		"grunt": "",
+		"grunt-git-revision-count": "",
+		"grunt-preprocess": "",
+		"grunt-contrib-concat": "",
+		"grunt-contrib-jshint": "",
+		"grunt-contrib-uglify": "",
+		"grunt-contrib-clean": "",
+		"grunt-wget": "",
+		"grunt-jsdoc": "",
+		"grunt-template": "",
+	    "grunt-betajs-docs-compile":""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/betajs/betajs-debug.git"
+	},
+	"meta": {
+		"status": "Active, In Development",
+		"weakDependencies": {
+			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
+		}
+	} 
+}

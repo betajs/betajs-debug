@@ -1,0 +1,12 @@
+(function () {
+
+var Scoped = this.subScope();
+
+Scoped.binding("module", "global:BetaJSDebug");
+
+Scoped.define("module:", function () {
+	return {
+		guid: "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
+		version: '/* @echo MAJOR_VERSION */./* @echo MINOR_VERSION */'
+	};
+});
