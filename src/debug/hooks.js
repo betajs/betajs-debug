@@ -19,9 +19,19 @@ Scoped.define("module:Hooks", [], function () {
 					throw exc;
 				return result;
 			};
+			return {
+				method: method,
+				original: old,
+				context: context
+			};
 		},
 		
-		hookMethods: function (context, beginCallback, endCallback, callbackContext) { 
+		unhookMethod: function (backup) {
+			backup.context[backup.method] = backup.original; 
+		},
+		
+		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+			var result = [];
 			for (var method in context)
 				if (typeof context[method] === "function") {
 					var empty = true;
@@ -31,16 +41,22 @@ Scoped.define("module:Hooks", [], function () {
 					}
 					if (!empty)
 						continue;
-					this.hookMethod(method, context, beginCallback, endCallback, callbackContext);
+					result.push(this.hookMethod(method, context, beginCallback, endCallback, callbackContext));
 				}
+			return result;
+		},
+		
+		unhookMethods: function (backup) {
+			for (var i = 0; i < backup.length; ++i)
+				this.unhookMethod(backup);
 		},
 		
 		hookPrototypeMethod: function (method, cls, beginCallback, endCallback, callbackContext) {
-			this.hookMethod(method, cls.prototype, beginCallback, endCallback, callbackContext);
+			return this.hookMethod(method, cls.prototype, beginCallback, endCallback, callbackContext);
 		},
 		
 		hookPrototypeMethods: function (cls, beginCallback, endCallback, callbackContext) {
-			this.hookMethods(cls.prototype, beginCallback, endCallback, callbackContext);
+			return this.hookMethods(cls.prototype, beginCallback, endCallback, callbackContext);
 		}
 		
 	};

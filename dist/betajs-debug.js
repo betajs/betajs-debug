@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.1 - 2015-11-26
+betajs-debug - v0.0.2 - 2015-11-28
 Copyright (c) Oliver Friedmann
 MIT Software License.
 */
@@ -560,7 +560,7 @@ Public.exports();
 }).call(this);
 
 /*!
-betajs-debug - v0.0.1 - 2015-11-26
+betajs-debug - v0.0.2 - 2015-11-28
 Copyright (c) Oliver Friedmann
 MIT Software License.
 */
@@ -573,7 +573,7 @@ Scoped.binding("module", "global:BetaJSDebug");
 Scoped.define("module:", function () {
 	return {
 		guid: "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		version: '1.1448566893670'
+		version: '2.1448752745631'
 	};
 });
 
@@ -598,9 +598,19 @@ Scoped.define("module:Hooks", [], function () {
 					throw exc;
 				return result;
 			};
+			return {
+				method: method,
+				original: old,
+				context: context
+			};
 		},
 		
-		hookMethods: function (context, beginCallback, endCallback, callbackContext) { 
+		unhookMethod: function (backup) {
+			backup.context[backup.method] = backup.original; 
+		},
+		
+		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+			var result = [];
 			for (var method in context)
 				if (typeof context[method] === "function") {
 					var empty = true;
@@ -610,16 +620,22 @@ Scoped.define("module:Hooks", [], function () {
 					}
 					if (!empty)
 						continue;
-					this.hookMethod(method, context, beginCallback, endCallback, callbackContext);
+					result.push(this.hookMethod(method, context, beginCallback, endCallback, callbackContext));
 				}
+			return result;
+		},
+		
+		unhookMethods: function (backup) {
+			for (var i = 0; i < backup.length; ++i)
+				this.unhookMethod(backup);
 		},
 		
 		hookPrototypeMethod: function (method, cls, beginCallback, endCallback, callbackContext) {
-			this.hookMethod(method, cls.prototype, beginCallback, endCallback, callbackContext);
+			return this.hookMethod(method, cls.prototype, beginCallback, endCallback, callbackContext);
 		},
 		
 		hookPrototypeMethods: function (cls, beginCallback, endCallback, callbackContext) {
-			this.hookMethods(cls.prototype, beginCallback, endCallback, callbackContext);
+			return this.hookMethods(cls.prototype, beginCallback, endCallback, callbackContext);
 		}
 		
 	};
@@ -636,12 +652,18 @@ Scoped.define("module:Profiler", [
 				_entered: 0,
 				_suspended: 0,
 				_time: 0,
-				_startTime: 0,			
+				_startTime: 0,
+				
+				_totalEnterCount: 0,
+				_enterCount: 0,
 				
 				enter: function () {
+					this._totalEnterCount++;
 					this._entered++;
-					if (this._entered === 1 && this._suspended < 1)
+					if (this._entered === 1 && this._suspended < 1) {
 						this._startTime = Timing.now();
+						this._enterCount++;
+					}
 				},
 				
 				leave: function () {
@@ -664,6 +686,14 @@ Scoped.define("module:Profiler", [
 				
 				time: function () {
 					return this._entered > 0 && this._suspended < 1 ? Timing.now() - this._startTime + this._time : this._time;
+				},
+				
+				profile: function () {
+					return {
+						time: this.time(),
+						totalEnterCount: this._totalEnterCount,
+						enterCount: this._enterCount
+					};
 				}
 				
 			};
@@ -676,6 +706,22 @@ Scoped.define("module:Profiler", [
 			for (var e = 0; e < excludedPrototypes.length; ++e)
 				Hooks.hookPrototypeMethods(excludedPrototypes[e], profile.suspend, profile.resume, profile);
 			return profile;	
+		},
+		
+		profileMethod: function (method, context) {
+			var profile = this.createProfile();
+			return {
+				profile: profile,
+				hook: Hooks.hookMethod(method, context, profile.enter, profile.leave, profile)
+			};
+		},
+		
+		profilePrototypeMethod: function (method, cls) {
+			var profile = this.createProfile();
+			return {
+				profile: profile,
+				hook: Hooks.hookPrototypeMethod(method, cls, profile.enter, profile.leave, profile)
+			};
 		}
 
 	};
