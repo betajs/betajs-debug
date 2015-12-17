@@ -1,6 +1,6 @@
 {
 	"name": "betajs-debug",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
 	"homepage": "http://betajs.com",
 	"contributors": ["Oliver Friedmann"],

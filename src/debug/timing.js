@@ -3,7 +3,7 @@ Scoped.define("module:Timing", [], function () {
 	return {
 
 		now: function () {
-			return performance.now();
+			return window.performance ? performance.now() : (new Date()).getTime();
 		}
 		
 	};

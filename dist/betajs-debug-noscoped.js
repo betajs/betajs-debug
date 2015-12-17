@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.2 - 2015-11-28
+betajs-debug - v0.0.3 - 2015-12-16
 Copyright (c) Oliver Friedmann
 MIT Software License.
 */
@@ -12,7 +12,7 @@ Scoped.binding("module", "global:BetaJSDebug");
 Scoped.define("module:", function () {
 	return {
 		guid: "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		version: '2.1448752745631'
+		version: '3.1450324016618'
 	};
 });
 
@@ -170,7 +170,7 @@ Scoped.define("module:Timing", [], function () {
 	return {
 
 		now: function () {
-			return performance.now();
+			return window.performance ? performance.now() : (new Date()).getTime();
 		}
 		
 	};
