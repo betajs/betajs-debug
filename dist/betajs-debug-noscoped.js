@@ -1,7 +1,7 @@
 /*!
-betajs-debug - v0.0.3 - 2015-12-17
+betajs-debug - v0.0.6 - 2016-02-10
 Copyright (c) Oliver Friedmann
-MIT Software License.
+Apache 2.0 Software License.
 */
 (function () {
 
@@ -12,7 +12,7 @@ Scoped.binding("module", "global:BetaJSDebug");
 Scoped.define("module:", function () {
 	return {
 		guid: "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		version: '4.1450405624902'
+		version: '5.1455126075278'
 	};
 });
 
