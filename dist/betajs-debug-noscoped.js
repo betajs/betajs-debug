@@ -1,21 +1,18 @@
 /*!
-betajs-debug - v0.0.6 - 2016-02-10
+betajs-debug - v0.0.8 - 2016-02-26
 Copyright (c) Oliver Friedmann
-Apache 2.0 Software License.
+Apache-2.0 Software License.
 */
+
 (function () {
-
 var Scoped = this.subScope();
-
-Scoped.binding("module", "global:BetaJSDebug");
-
+Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
-		guid: "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		version: '5.1455126075278'
-	};
+    "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
+    "version": "6.1456499412917"
+};
 });
-
 Scoped.define("module:Hooks", [], function () {
 	return {
 		

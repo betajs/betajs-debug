@@ -1,40 +1,64 @@
 {
-	"name": "betajs-debug",
-	"version": "0.0.6",
-	"description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
-	"homepage": "http://betajs.com",
-	"contributors": ["Oliver Friedmann"],
-	"license": "Apache 2.0",
-	"devDependencies": {
-		"grunt": "",
-		"grunt-git-revision-count": "",
-		"grunt-preprocess": "",
-		"grunt-contrib-concat": "",
-		"grunt-contrib-jshint": "",
-		"grunt-contrib-uglify": "",
-		"grunt-contrib-clean": "",
-		"grunt-wget": "",
-		"grunt-jsdoc": "",
-		"grunt-template": "",
-	    "grunt-betajs-docs-compile":"",
-	    "betajs-compile": "betajs/betajs-compile"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/betajs/betajs-debug.git"
-	},
-	"meta": {
-		"guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		"blog": "http://blog.betajs.com",
-		"twitter": "http://twitter.com/thebetajs",
-		"badges": {
-			"codeclimate": true,
-			"travis": false,
-			"npm": false
-		},
-		"status": "Active, In Development",
-		"weakDependencies": {
-			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
-		}
-	} 
+    "homepage": "http://betajs.com",
+    "license": "Apache-2.0",
+    "licenses": [
+        {
+            "type": "Apache-2.0",
+            "url": "https://github.com/betajs/betajs-debug/blob/master/LICENSE"
+        }
+    ],
+    "author": {
+        "name": "BetaJS",
+        "email": "info@betajs.com"
+    },
+    "bugs": {
+        "url": "https://github.com/betajs/betajs-debug/issues"
+    },
+    "name": "betajs-debug",
+    "version": "0.0.8",
+    "description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
+    "contributors": [
+        "Oliver Friedmann"
+    ],
+    "devDependencies": {
+        "grunt": "",
+        "grunt-git-revision-count": "",
+        "grunt-preprocess": "",
+        "grunt-contrib-concat": "",
+        "grunt-contrib-jshint": "",
+        "grunt-contrib-uglify": "",
+        "grunt-contrib-clean": "",
+        "grunt-closure-tools": "",
+        "grunt-wget": "",
+        "grunt-jsdoc": "",
+        "grunt-template": "",
+        "grunt-betajs-docs-compile": "",
+        "betajs-scoped": "",
+        "betajs-compile": "betajs/betajs-compile"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/betajs/betajs-debug.git"
+    },
+    "meta": {
+        "blog": "http://blog.betajs.com",
+        "twitter": "http://twitter.com/thebetajs",
+        "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
+        "installdoc": "docsrc/common/install.md",
+        "summarydoc": "docsrc/common/summary.md",
+        "badges": {
+            "codeclimate": true,
+            "travis": false,
+            "npm": false
+        },
+        "weakDependencies": {
+            "betajs-scoped": "https://github.com/betajs/betajs-scoped"
+        },
+        "cdn": {
+            "betajs-debug.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.js",
+            "betajs-debug.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.min.js",
+            "betajs-debug-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.js",
+            "betajs-debug-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.min.js"
+        }
+    }
 }
