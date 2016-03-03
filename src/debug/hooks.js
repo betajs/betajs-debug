@@ -5,7 +5,7 @@ Scoped.define("module:Hooks", [], function () {
 			var old = context[method];
 			context[method] = function () {
 				if (beginCallback)
-					beginCallback.call(callbackContext, method, context, arguments);
+					beginCallback.call(callbackContext, method, context, arguments, this);
 				var exc = null;
 				var result = null;
 				try {
@@ -14,7 +14,7 @@ Scoped.define("module:Hooks", [], function () {
 					exc = e;
 				}
 				if (endCallback)
-					endCallback.call(callbackContext, method, context, arguments, result, exc);
+					endCallback.call(callbackContext, method, context, arguments, result, exc, this);
 				if (exc)
 					throw exc;
 				return result;
