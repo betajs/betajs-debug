@@ -21,6 +21,7 @@
         "Oliver Friedmann"
     ],
     "devDependencies": {
+    	"lodash": "",
         "grunt": "",
         "grunt-git-revision-count": "",
         "grunt-preprocess": "",

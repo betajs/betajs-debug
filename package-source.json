@@ -4,6 +4,7 @@
 	"description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
 	"contributors": ["Oliver Friedmann"],
 	"devDependencies": {
+    	"lodash": "",
 		"grunt": "",
 		"grunt-git-revision-count": "",
 		"grunt-preprocess": "",
