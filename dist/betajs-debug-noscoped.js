@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.9 - 2016-03-02
+betajs-debug - v0.0.10 - 2016-03-06
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -10,7 +10,7 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "7.1456966924597"
+    "version": "9.1457307407638"
 };
 });
 Scoped.define("module:Hooks", [], function () {
@@ -154,8 +154,8 @@ Scoped.define("module:Instances", [
 			return {
 				instances: instances,
 				hooks: {
-					constructor: constructorHook,
-					destroy: destroyHook
+					constructorHook: constructorHook,
+					destroyHook: destroyHook
 				}
 			};
 		},

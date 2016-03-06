@@ -76,8 +76,8 @@ Scoped.define("module:Instances", [
 			return {
 				instances: instances,
 				hooks: {
-					constructor: constructorHook,
-					destroy: destroyHook
+					constructorHook: constructorHook,
+					destroyHook: destroyHook
 				}
 			};
 		},

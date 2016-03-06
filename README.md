@@ -1,4 +1,4 @@
-# betajs-debug 0.0.9
+# betajs-debug 0.0.10
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-debug/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-debug)
 
 
