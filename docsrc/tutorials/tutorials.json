@@ -1,0 +1,8 @@
+{
+	"debug-profiling-methods": {
+		"title": "Profiling Method Calls"
+	},
+	"debug-profiling-instances": {
+		"title": "Profiling Instantiations"
+	}
+}
