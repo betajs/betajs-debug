@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.10 - 2016-03-06
+betajs-debug - v0.0.11 - 2016-06-15
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -10,7 +10,7 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "9.1457307407638"
+    "version": "11.1466011189712"
 };
 });
 Scoped.define("module:Hooks", [], function () {
@@ -175,6 +175,69 @@ Scoped.define("module:Instances", [
 				result.push("<tr><td>");
 				result.push([classname, r.count, r.tree].join("</td><td>"));
 				result.push("</td></tr>");
+			}
+			result.push("</tbody></table>");
+			return result.join("");
+		}
+		
+	};
+});
+Scoped.define("module:Methods", [
+    "module:Hooks"
+], function (Hooks) {
+	return {
+				
+		monitorInstances: function (baseClass, filter) {
+			var classes = {};
+			var beginCallMethod = function (method, instance) {
+				var methods = classes[instance.cls.classname].methods;
+				methods[method] = methods[method] || {
+					count: 0
+				};
+				methods[method].count++;
+			};
+			var constructorHook = Hooks.hookMethod("constructor", baseClass.prototype, function (method, ctx, args, instance) {
+				if (!filter(instance.cls))
+					return;
+				if (classes[instance.cls.classname])
+					return;
+				classes[instance.cls.classname] = {
+					cls: instance.cls,
+					hooks: {
+						methods: Hooks.hookPrototypeMethods(instance.cls, beginCallMethod)
+					},
+					methods: {}
+				};
+			});
+			return {
+				classes: classes,
+				hooks: {
+					constructorHook: constructorHook
+				}
+			};
+		},
+		
+		unmonitorInstances: function (monitor) {
+			Hooks.unhookMethod(monitor.hooks.constructorHook);
+			for (var classname in monitor.classes) {
+				var cls = monitor.classes[classname];
+				Hooks.unhookMethods(cls.hooks.methods);
+			}
+		},
+		
+		toHTMLTable: function (monitor) {
+			var result = [];
+			result.push("<table><thead><tr><th>");
+			result.push(["Class", "Method", "Count"].join("</th><th>"));
+			result.push("</th></thead><tbody>");
+			for (var classname in monitor.classes) {
+				var cls = monitor.classes[classname];
+				for (var methodname in cls.methods) {
+					var method = cls.methods[methodname];
+					result.push("<tr><td>");
+					result.push([classname,  methodname, method.count].join("</td><td>"));
+					result.push("</td></tr>");
+				}
 			}
 			result.push("</tbody></table>");
 			return result.join("");
