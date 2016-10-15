@@ -1,0 +1,17 @@
+(function () {
+ 
+	function send(data) {			
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("POST", "<%- url %>/logs", false);
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.send(JSON.stringify(data));
+	}
+	
+	var oldLog = console.log;
+	
+	console.log = function (message) {
+		oldLog.apply(console, arguments);
+		send({message: message});
+	};
+	
+}).call(this);
