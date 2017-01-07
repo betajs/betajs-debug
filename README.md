@@ -1,5 +1,6 @@
 # betajs-debug 0.0.11
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-debug/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-debug)
+[![NPM](https://img.shields.io/npm/v/betajs-debug.svg?style=flat)](https://www.npmjs.com/package/betajs-debug)
 
 
 BetaJS-Debug is a library for debugging BetaJS-based applications.
@@ -55,9 +56,10 @@ You can use the library in the browser, in your NodeJS project and compile it as
 | :--------- | --: |
 | Homepage   | [http://betajs.com](http://betajs.com) |
 | Git        | [git://github.com/betajs/betajs-debug.git](git://github.com/betajs/betajs-debug.git) |
-| Repository | [http://github.com/betajs/betajs-debug](http://github.com/betajs/betajs-debug) |
+| Repository | [https://github.com/betajs/betajs-debug](https://github.com/betajs/betajs-debug) |
 | Blog       | [http://blog.betajs.com](http://blog.betajs.com) | 
 | Twitter    | [http://twitter.com/thebetajs](http://twitter.com/thebetajs) | 
+ 
 
 
 
@@ -79,13 +81,17 @@ You can use the library in the browser, in your NodeJS project and compile it as
 | betajs-scoped | [Open](https://github.com/betajs/betajs-scoped) |
 
 
-## Contributors
+## Main Contributors
 
 - Oliver Friedmann
-
 
 ## License
 
 Apache-2.0
+
+
+
+
+
 
 
