@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.11 - 2016-06-15
+betajs-debug - v0.0.12 - 2017-01-15
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -10,7 +10,7 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "11.1466011189712"
+    "version": "0.0.12"
 };
 });
 Scoped.define("module:Hooks", [], function () {
