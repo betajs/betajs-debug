@@ -1,7 +1,7 @@
 # betajs-debug 0.0.12
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-debug/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-debug)
 [![NPM](https://img.shields.io/npm/v/betajs-debug.svg?style=flat)](https://www.npmjs.com/package/betajs-debug)
-
+[![Gitter Chat](https://badges.gitter.im/betajs/betajs-debug.svg)](https://gitter.im/betajs/betajs-debug)
 
 BetaJS-Debug is a library for debugging BetaJS-based applications.
 
@@ -59,7 +59,7 @@ You can use the library in the browser, in your NodeJS project and compile it as
 | Repository | [https://github.com/betajs/betajs-debug](https://github.com/betajs/betajs-debug) |
 | Blog       | [http://blog.betajs.com](http://blog.betajs.com) | 
 | Twitter    | [http://twitter.com/thebetajs](http://twitter.com/thebetajs) | 
- 
+| Gitter     | [https://gitter.im/betajs/betajs-debug](https://gitter.im/betajs/betajs-debug) | 
 
 
 
