@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.12 - 2017-01-15
+betajs-debug - v0.0.13 - 2018-02-10
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -10,7 +10,7 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "0.0.12"
+    "version": "0.0.13"
 };
 });
 Scoped.define("module:Hooks", [], function () {
@@ -124,32 +124,38 @@ Scoped.define("module:Instances", [
 		
 		monitorInstances: function (baseClass, filter) {
 			var instances = {};
-			var logchange = function (cls, delta) {
+			var logchange = function (cls, delta, cid) {
 				var current = cls;
 				while (current) {
 					if (!instances[current.classname]) {
 						instances[current.classname] = {
 							count: 0,
-							tree: 0
+							tree: 0,
+							cids: {}
 						};
 					}
 					instances[current.classname].tree += delta;
-					if (current === cls)
-						instances[current.classname].count += delta;
+					if (current === cls) {
+                        instances[current.classname].count += delta;
+                        if (delta > 0)
+							instances[current.classname].cids[cid] = true;
+                        else
+                            delete instances[current.classname].cids[cid];
+                    }
 					if (instances[current.classname].count === 0 && instances[current.classname].tree === 0)
 						delete instances[current.classname];
 					current = current.parent;
 				}
 			};
-			var constructorHook = Hooks.hookMethod("constructor", baseClass.prototype, function (method, ctx, args, instance) {
+			var constructorHook = Hooks.hookMethod("constructor", baseClass.prototype, undefined, function (method, ctx, args, result, exc, instance) {
 				if (!filter(instance.cls))
 					return;
-				logchange(instance.cls, +1);
+				logchange(instance.cls, +1, instance.cid());
 			});
 			var destroyHook = Hooks.hookMethod("destroy", baseClass.prototype, function (method, ctx, args, instance) {
 				if (!filter(instance.cls))
 					return;
-				logchange(instance.cls, -1);
+				logchange(instance.cls, -1, instance.cid());
 			});
 			return {
 				instances: instances,
@@ -178,7 +184,21 @@ Scoped.define("module:Instances", [
 			}
 			result.push("</tbody></table>");
 			return result.join("");
-		}
+		},
+
+        toText: function (monitor) {
+            var result = [];
+            result.push(["Class", "Count", "Tree"].join("\t"));
+            for (var classname in monitor.instances) {
+                var r = monitor.instances[classname];
+                var cids = [];
+                for (cid in r.cids)
+                	cids.push(cid);
+                result.push([classname, r.count, r.tree, cids.join(",")].join("\t"));
+            }
+            return result.join("\n");
+        }
+
 		
 	};
 });

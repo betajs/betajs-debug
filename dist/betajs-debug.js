@@ -1,10 +1,10 @@
 /*!
-betajs-debug - v0.0.12 - 2017-01-15
+betajs-debug - v0.0.13 - 2018-02-10
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
 /** @flow **//*!
-betajs-scoped - v0.0.13 - 2017-01-15
+betajs-scoped - v0.0.17 - 2017-10-22
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -16,7 +16,7 @@ var Globals = (function () {
  * @module Globals
  * @access private
  */
-return { 
+return {
 		
 	/**
 	 * Returns the value of a global variable.
@@ -26,11 +26,11 @@ return {
 	 */
 	get : function(key/* : string */) {
 		if (typeof window !== "undefined")
-			return window[key];
+			return key ? window[key] : window;
 		if (typeof global !== "undefined")
-			return global[key];
+			return key ? global[key] : global;
 		if (typeof self !== "undefined")
-			return self[key];
+			return key ? self[key] : self;
 		return undefined;
 	},
 
@@ -64,6 +64,8 @@ return {
 	 * Globals.getPath("foo.bar")
 	 */
 	getPath: function (path/* : string */) {
+		if (!path)
+			return this.get();
 		var args = path.split(".");
 		if (args.length == 1)
 			return this.get(path);		
@@ -638,7 +640,10 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 		
 		var execute = function () {
 			this.require(args.dependencies, args.hiddenDependencies, function () {
-				arguments[arguments.length - 1].ns = ns;
+                var _arguments = [];
+                for (var a = 0; a < arguments.length; ++a)
+                    _arguments.push(arguments[a]);
+                _arguments[_arguments.length - 1].ns = ns;
 				if (this.options.compile) {
 					var params = [];
 					for (var i = 0; i < argmts.length; ++i)
@@ -658,7 +663,7 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 						}, this);
 					}
 				}
-				var result = this.options.compile ? {} : args.callback.apply(args.context || this, arguments);
+				var result = this.options.compile ? {} : args.callback.apply(args.context || this, _arguments);
 				callback.call(this, ns, result);
 			}, this);
 		};
@@ -962,7 +967,7 @@ var Public = Helper.extend(rootScope, (function () {
 return {
 		
 	guid: "4b6878ee-cb6a-46b3-94ac-27d91f58d666",
-	version: '0.0.13',
+	version: '0.0.17',
 		
 	upgrade: Attach.upgrade,
 	attach: Attach.attach,
@@ -1004,7 +1009,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-debug - v0.0.12 - 2017-01-15
+betajs-debug - v0.0.13 - 2018-02-10
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -1015,7 +1020,7 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "0.0.12"
+    "version": "0.0.13"
 };
 });
 Scoped.define("module:Hooks", [], function () {
@@ -1129,32 +1134,38 @@ Scoped.define("module:Instances", [
 		
 		monitorInstances: function (baseClass, filter) {
 			var instances = {};
-			var logchange = function (cls, delta) {
+			var logchange = function (cls, delta, cid) {
 				var current = cls;
 				while (current) {
 					if (!instances[current.classname]) {
 						instances[current.classname] = {
 							count: 0,
-							tree: 0
+							tree: 0,
+							cids: {}
 						};
 					}
 					instances[current.classname].tree += delta;
-					if (current === cls)
-						instances[current.classname].count += delta;
+					if (current === cls) {
+                        instances[current.classname].count += delta;
+                        if (delta > 0)
+							instances[current.classname].cids[cid] = true;
+                        else
+                            delete instances[current.classname].cids[cid];
+                    }
 					if (instances[current.classname].count === 0 && instances[current.classname].tree === 0)
 						delete instances[current.classname];
 					current = current.parent;
 				}
 			};
-			var constructorHook = Hooks.hookMethod("constructor", baseClass.prototype, function (method, ctx, args, instance) {
+			var constructorHook = Hooks.hookMethod("constructor", baseClass.prototype, undefined, function (method, ctx, args, result, exc, instance) {
 				if (!filter(instance.cls))
 					return;
-				logchange(instance.cls, +1);
+				logchange(instance.cls, +1, instance.cid());
 			});
 			var destroyHook = Hooks.hookMethod("destroy", baseClass.prototype, function (method, ctx, args, instance) {
 				if (!filter(instance.cls))
 					return;
-				logchange(instance.cls, -1);
+				logchange(instance.cls, -1, instance.cid());
 			});
 			return {
 				instances: instances,
@@ -1183,7 +1194,21 @@ Scoped.define("module:Instances", [
 			}
 			result.push("</tbody></table>");
 			return result.join("");
-		}
+		},
+
+        toText: function (monitor) {
+            var result = [];
+            result.push(["Class", "Count", "Tree"].join("\t"));
+            for (var classname in monitor.instances) {
+                var r = monitor.instances[classname];
+                var cids = [];
+                for (cid in r.cids)
+                	cids.push(cid);
+                result.push([classname, r.count, r.tree, cids.join(",")].join("\t"));
+            }
+            return result.join("\n");
+        }
+
 		
 	};
 });

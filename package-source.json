@@ -1,50 +1,52 @@
 {
-	"name": "betajs-debug",
-	"version": "0.0.12",
-	"description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
-	"contributors": ["Oliver Friedmann"],
-	"devDependencies": {
-    	"lodash": "",
-		"grunt": "",
-		"grunt-preprocess": "",
-		"grunt-contrib-concat": "",
-		"grunt-contrib-jshint": "",
-		"grunt-contrib-uglify": "",
-		"grunt-contrib-clean": "",
-		"grunt-closure-tools": "",
-		"express": "",
-	    "body-parser": "",
-	    "ejs": "",
-	    "cors": "",
-		"grunt-jsdoc": "",
-		"grunt-template": "",
-	    "grunt-betajs-docs-compile":"~0.0.19",
-	    "betajs-scoped": "~0.0.13",
-	    "betajs-compile": "~0.0.28"
-	},
-	"main": "dist/betajs-debug-noscoped.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/betajs/betajs-debug.git"
-	},
-	"meta": {
-		"guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-		"installdoc": "docsrc/common/install.md",
-		"summarydoc": "docsrc/common/summary.md",
-		"badges": {
-			"codeclimate": true,
-			"travis": false,
-			"npm": true,
-			"gitter": true
-		},
-		"weakDependencies": {
-			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
-		},
-		"cdn": {
-			"betajs-debug.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.js",
-			"betajs-debug.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.min.js",
-			"betajs-debug-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.js",
-			"betajs-debug-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.min.js"
-		}
-	} 
+    "name": "betajs-debug",
+    "version": "0.0.13",
+    "description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
+    "contributors": [
+        "Oliver Friedmann"
+    ],
+    "devDependencies": {
+        "lodash": "",
+        "grunt": "",
+        "grunt-preprocess": "",
+        "grunt-contrib-concat": "",
+        "grunt-contrib-jshint": "",
+        "grunt-contrib-uglify": "",
+        "grunt-contrib-clean": "",
+        "grunt-closure-tools": "",
+        "express": "",
+        "body-parser": "",
+        "ejs": "",
+        "cors": "",
+        "grunt-jsdoc": "",
+        "grunt-template": "",
+        "grunt-betajs-docs-compile": "~0.0.19",
+        "betajs-scoped": "~0.0.13",
+        "betajs-compile": "~0.0.28"
+    },
+    "main": "dist/betajs-debug-noscoped.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/betajs/betajs-debug.git"
+    },
+    "meta": {
+        "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
+        "installdoc": "docsrc/common/install.md",
+        "summarydoc": "docsrc/common/summary.md",
+        "badges": {
+            "codeclimate": true,
+            "travis": false,
+            "npm": true,
+            "gitter": true
+        },
+        "weakDependencies": {
+            "betajs-scoped": "https://github.com/betajs/betajs-scoped"
+        },
+        "cdn": {
+            "betajs-debug.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.js",
+            "betajs-debug.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug.min.js",
+            "betajs-debug-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.js",
+            "betajs-debug-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-debug/master/dist/betajs-debug-noscoped.min.js"
+        }
+    }
 }
