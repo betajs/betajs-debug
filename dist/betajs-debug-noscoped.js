@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.13 - 2018-02-10
+betajs-debug - v0.0.14 - 2019-04-25
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -10,9 +10,24 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "0.0.13"
+    "version": "0.0.14",
+    "datetime": 1556234419949
 };
 });
+Scoped.define("module:Helpers", [], function () {
+    return {
+
+        getStackTrace: function(index) {
+            var stack = (new Error()).stack.split("\n");
+            while (stack.length > 0 && stack[0].trim().toLowerCase() === "error")
+                stack.shift();
+            return index ? stack.slice(index) : stack;
+        }
+
+    };
+});
+
+
 Scoped.define("module:Hooks", [], function () {
 	return {
 		
@@ -44,8 +59,14 @@ Scoped.define("module:Hooks", [], function () {
 		unhookMethod: function (backup) {
 			backup.context[backup.method] = backup.original; 
 		},
-		
-		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+
+		hookMethodsArray: function (methods, context, beginCallback, endCallback, callbackContext) {
+			return methods.map(function (method) {
+				return this.hookMethod(method, context, beginCallback, endCallback, callbackContext);
+			}, this);
+		},
+
+		getContextMethodNames: function (context) {
 			var result = [];
 			for (var method in context)
 				if (typeof context[method] === "function") {
@@ -56,9 +77,13 @@ Scoped.define("module:Hooks", [], function () {
 					}
 					if (!empty)
 						continue;
-					result.push(this.hookMethod(method, context, beginCallback, endCallback, callbackContext));
+					result.push(method);
 				}
 			return result;
+		},
+
+		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+			return this.hookMethodsArray(this.getContextMethodNames(context), context, beginCallback, endCallback, callbackContext);
 		},
 		
 		unhookMethods: function (backup) {
@@ -351,6 +376,75 @@ Scoped.define("module:Profiler", [
 
 	};
 });
+Scoped.define("module:Timers", [
+	"module:Hooks",
+	"module:Helpers"
+], function (Hooks, Helpers) {
+	return {
+
+		hookTimers: function () {
+			var handleCounter = 0;
+			var handleConvert = function (handle) {
+				if (typeof handle === "number")
+					return handle;
+				if (!handle.__handleCounter) {
+					handleCounter++;
+					handle.__handleCounter = handleCounter;
+				}
+				return handle.__handleCounter;
+			};
+			var ctx = null;
+			try {
+				ctx = window;
+			} catch (e) {
+				ctx = global;
+			}
+			var result = {
+				intervals: {},
+				timeouts: {},
+				hooks: [
+					Hooks.hookMethod("setInterval", ctx, null,function (m, c, args, handle) {
+						result.intervals[handleConvert(handle)] = {
+							func: args[0],
+							intv: args[1],
+							stack: Helpers.getStackTrace()
+						};
+					}),
+
+					Hooks.hookMethod("clearInterval", ctx, function (m, c, args) {
+						delete result.intervals[handleConvert(args[0])];
+					}),
+
+					Hooks.hookMethod("setTimeout", ctx, null,function (m, c, args, handle) {
+						result.timeouts[handleConvert(handle)] = {
+							func: args[0],
+							intv: args[1],
+							stack: Helpers.getStackTrace()
+						};
+					}),
+
+					Hooks.hookMethod("clearTimeout", ctx, function (m, c, args) {
+						delete result.timeouts[handleConvert(args[0])];
+					})
+				]
+			};
+			return result;
+		},
+
+		unhookTimers: function (obj) {
+			Hooks.unhookMethods(obj.hooks);
+		},
+
+		digest: function (obj) {
+			return {
+				intervals: obj.intervals,
+				timeouts: obj.timeouts
+			}
+		}
+
+	};
+});
+
 Scoped.define("module:Timing", [], function () {
 	
 	return {

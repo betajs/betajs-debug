@@ -1,6 +1,6 @@
 {
     "name": "betajs-debug",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "BetaJS-Debug is a library for debugging BetaJS-based applications.",
     "contributors": [
         "Oliver Friedmann"
@@ -11,7 +11,7 @@
         "grunt-preprocess": "",
         "grunt-contrib-concat": "",
         "grunt-contrib-jshint": "",
-        "grunt-contrib-uglify": "",
+        "grunt-contrib-uglify": "^4.0.0",
         "grunt-contrib-clean": "",
         "grunt-closure-tools": "",
         "express": "",
@@ -25,6 +25,10 @@
         "betajs-compile": "~0.0.28"
     },
     "main": "dist/betajs-debug-noscoped.js",
+    "scripts": {
+        "relink": "npm link betajs-compile && npm link betajs-scoped",
+        "reinstall": "rm -f package-lock.json && rm -rf node_modules && npm i && npm run relink"
+    },
     "repository": {
         "type": "git",
         "url": "git://github.com/betajs/betajs-debug.git"

@@ -29,8 +29,14 @@ Scoped.define("module:Hooks", [], function () {
 		unhookMethod: function (backup) {
 			backup.context[backup.method] = backup.original; 
 		},
-		
-		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+
+		hookMethodsArray: function (methods, context, beginCallback, endCallback, callbackContext) {
+			return methods.map(function (method) {
+				return this.hookMethod(method, context, beginCallback, endCallback, callbackContext);
+			}, this);
+		},
+
+		getContextMethodNames: function (context) {
 			var result = [];
 			for (var method in context)
 				if (typeof context[method] === "function") {
@@ -41,9 +47,13 @@ Scoped.define("module:Hooks", [], function () {
 					}
 					if (!empty)
 						continue;
-					result.push(this.hookMethod(method, context, beginCallback, endCallback, callbackContext));
+					result.push(method);
 				}
 			return result;
+		},
+
+		hookMethods: function (context, beginCallback, endCallback, callbackContext) {
+			return this.hookMethodsArray(this.getContextMethodNames(context), context, beginCallback, endCallback, callbackContext);
 		},
 		
 		unhookMethods: function (backup) {

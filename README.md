@@ -1,4 +1,4 @@
-# betajs-debug 0.0.13
+# betajs-debug 0.0.14
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-debug/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-debug)
 [![NPM](https://img.shields.io/npm/v/betajs-debug.svg?style=flat)](https://www.npmjs.com/package/betajs-debug)
 [![Gitter Chat](https://badges.gitter.im/betajs/betajs-debug.svg)](https://gitter.im/betajs/betajs-debug)
@@ -54,11 +54,11 @@ You can use the library in the browser, in your NodeJS project and compile it as
 ## Links
 | Resource   | URL |
 | :--------- | --: |
-| Homepage   | [http://betajs.com](http://betajs.com) |
+| Homepage   | [https://betajs.com](https://betajs.com) |
 | Git        | [git://github.com/betajs/betajs-debug.git](git://github.com/betajs/betajs-debug.git) |
 | Repository | [https://github.com/betajs/betajs-debug](https://github.com/betajs/betajs-debug) |
-| Blog       | [http://blog.betajs.com](http://blog.betajs.com) | 
-| Twitter    | [http://twitter.com/thebetajs](http://twitter.com/thebetajs) | 
+| Blog       | [https://blog.betajs.com](https://blog.betajs.com) | 
+| Twitter    | [https://twitter.com/thebetajs](https://twitter.com/thebetajs) | 
 | Gitter     | [https://gitter.im/betajs/betajs-debug](https://gitter.im/betajs/betajs-debug) | 
 
 
