@@ -1,5 +1,5 @@
 /*!
-betajs-debug - v0.0.14 - 2019-04-25
+betajs-debug - v0.0.15 - 2019-04-28
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -1006,7 +1006,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-debug - v0.0.14 - 2019-04-25
+betajs-debug - v0.0.15 - 2019-04-28
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -1017,8 +1017,8 @@ Scoped.binding('module', 'global:BetaJSDebug');
 Scoped.define("module:", function () {
 	return {
     "guid": "d33ed9c4-d6fc-49d4-b388-cd7b9597b63a",
-    "version": "0.0.14",
-    "datetime": 1556234419949
+    "version": "0.0.15",
+    "datetime": 1556464421035
 };
 });
 Scoped.define("module:Helpers", [], function () {
@@ -1411,6 +1411,8 @@ Scoped.define("module:Timers", [
 				timeouts: {},
 				hooks: [
 					Hooks.hookMethod("setInterval", ctx, null,function (m, c, args, handle) {
+						if (!handle)
+							return;
 						result.intervals[handleConvert(handle)] = {
 							func: args[0],
 							intv: args[1],
@@ -1419,10 +1421,14 @@ Scoped.define("module:Timers", [
 					}),
 
 					Hooks.hookMethod("clearInterval", ctx, function (m, c, args) {
+						if (!args[0])
+							return;
 						delete result.intervals[handleConvert(args[0])];
 					}),
 
 					Hooks.hookMethod("setTimeout", ctx, null,function (m, c, args, handle) {
+						if (!handle)
+							return;
 						result.timeouts[handleConvert(handle)] = {
 							func: args[0],
 							intv: args[1],
@@ -1431,6 +1437,8 @@ Scoped.define("module:Timers", [
 					}),
 
 					Hooks.hookMethod("clearTimeout", ctx, function (m, c, args) {
+						if (!args[0])
+							return;
 						delete result.timeouts[handleConvert(args[0])];
 					})
 				]
